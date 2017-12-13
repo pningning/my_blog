@@ -1,0 +1,23 @@
+<%- include('../layouts/header.ejs')%>
+<link rel="stylesheet" href="/node_modules/mditor/dist/css/mditor.min.css">
+
+<div class="container">
+    <h1><%- articleInfo.title %>
+        <!-- 用户登录并且，用户登录id和文章作者id相等才显示编辑 -->
+        <% if(islogin && articleInfo.authorId == user.id){ %>
+        <a href="/article/edit?id=<%= articleInfo.id%>" class="btn btn-info pull-right">编辑</a>
+        <% } %>
+    </h1>
+    <hr>
+    <div>
+        <%- articleInfo.content %>
+    </div>
+
+</div>
+<%- include('../layouts/footer.ejs') %>
+    <script src="/node_modules/mditor/dist/js/mditor.min.js"></script>
+    <script>
+        $(function () {
+           
+        })
+    </script>

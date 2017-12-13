@@ -1,0 +1,38 @@
+<%- include('../layouts/header.ejs')%>
+<link rel="stylesheet" href="/node_modules/mditor/dist/css/mditor.min.css">
+
+<div class="container">
+    <h1>编辑文章页</h1>
+
+    <form id="form">
+        <input type="hidden" name="id" value="<%= article.id %>">
+        <div class="form-group">
+            <label for="exampleInputEmail1">文章标题</label>
+            <input type="text" name="title" class="form-control" id="exampleInputEmail1" value="<%= article.title %>">
+        </div>
+        <div class="form-group">
+            <label for="editor">文章内容</label>
+            <textarea name="content" id="editor" cols="30" rows="10" class="form-control"><%= article.content%></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary pull-right">提交编辑</button>
+    </form>
+</div>
+<%- include('../layouts/footer.ejs') %>
+    <script src="/node_modules/mditor/dist/js/mditor.min.js"></script>
+    <script>
+        $(function () {
+            var mditor = Mditor.fromTextarea(document.getElementById('editor'))
+
+            $('#form').on('submit', function(e) {
+                e.preventDefault()
+                //发起ajax请求
+                axios.post('/article/edit', $('#form').serialize()).then(({data}) => {
+                    if(data.err_code === 0) {
+                        location.href = '/article/info?id=<%= article.id%>'
+                    }else {
+                        alert('更新文章失败')
+                    }
+                })
+            })
+        })
+    </script>
